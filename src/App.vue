@@ -157,10 +157,10 @@ export default {
         )`;
       }
       return `linear-gradient(
-            -98deg,
-            ${this.shadeColor(colorSet.background, 10)},
-            ${this.convertHexToRGBA(this.shadeColor(colorSet.background, 10), 80)}
-            )`;
+        -98deg,
+        ${this.shadeColor(colorSet.background, 10)},
+        ${this.convertHexToRGBA(this.shadeColor(colorSet.background, 10), 80)}
+        )`;
     },
 
     convertHexToRGBA(hexCode, opacity) {
