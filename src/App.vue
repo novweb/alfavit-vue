@@ -1,13 +1,12 @@
 <template>
-  <div id="app"
+  <div
+    id="app"
     :class="{
       'is-loader': showLetters,
       'is-portrait': !orientationIsLanding,
     }"
   >
-    <div class="loader" v-if="!showLetters">
-      Загружаемся...
-    </div>
+    <div class="loader" v-if="!showLetters">Загружаемся...</div>
 
     <template v-if="showLetters">
       <div
@@ -17,9 +16,8 @@
         :style="{
           '--animate-duration': `${alfavitSource[letter].audio[1] / 1000}s`,
           background: getBackgroundColor(key),
-          color: (key % 2 == 0)
-            ? colorSet.letter
-            : shadeColor(colorSet.letter, -20),
+          color:
+            key % 2 == 0 ? colorSet.letter : shadeColor(colorSet.letter, -20),
         }"
         @click="letterRun(letter)"
       >
@@ -27,14 +25,17 @@
           class="letter-box__inset"
           :class="{
             'letter-box__inset--active': letter === activeLetter,
-            'letter-box__inset--silenced': activeLetter !== '' && letter !== activeLetter
+            'letter-box__inset--silenced':
+              activeLetter !== '' && letter !== activeLetter,
           }"
         >
           <span
             :class="{
-              'animate__animated animate__rubberBand animate__infinite': letter === activeLetter,
+              'animate__animated animate__rubberBand animate__infinite':
+                letter === activeLetter,
             }"
-          >{{ letter }}</span>
+            >{{ letter }}</span
+          >
         </div>
       </div>
     </template>
@@ -44,7 +45,11 @@
     </div>
 
     <div class="controlr" v-if="showLetters" @click="toggleBackgroundSound()">
-      <img src="./assets/002-headphones.svg" alt="" :class="{'is-playing': backgroundAudioPlaying}">
+      <img
+        src="./assets/002-headphones.svg"
+        alt=""
+        :class="{ 'is-playing': backgroundAudioPlaying }"
+      />
     </div>
   </div>
 </template>
@@ -135,7 +140,6 @@ export default {
 
   methods: {
     toggleBackgroundSound() {
-      console.log(this.alfaAudio.playing());
       if (this.backgroundAudio.playing()) {
         this.backgroundAudio.pause();
         this.backgroundAudioPlaying = false;
@@ -147,7 +151,7 @@ export default {
 
     getBackgroundColor(key) {
       const { colorSet } = this;
-      let odd = (key % 2 === 0);
+      let odd = key % 2 === 0;
       if (key >= 30) odd = !odd;
       if (odd) {
         return `linear-gradient(
@@ -192,13 +196,13 @@ export default {
       g = parseInt((g * (100 + percent)) / 100, 10);
       b = parseInt((b * (100 + percent)) / 100, 10);
 
-      r = (r < 255) ? r : 255;
-      g = (g < 255) ? g : 255;
-      b = (b < 255) ? b : 255;
+      r = r < 255 ? r : 255;
+      g = g < 255 ? g : 255;
+      b = b < 255 ? b : 255;
 
-      const Rr = ((r.toString(16).length === 1) ? `0${r.toString(16)}` : r.toString(16));
-      const Gg = ((g.toString(16).length === 1) ? `0${g.toString(16)}` : g.toString(16));
-      const Bb = ((b.toString(16).length === 1) ? `0${b.toString(16)}` : b.toString(16));
+      const Rr = r.toString(16).length === 1 ? `0${r.toString(16)}` : r.toString(16);
+      const Gg = g.toString(16).length === 1 ? `0${g.toString(16)}` : g.toString(16);
+      const Bb = b.toString(16).length === 1 ? `0${b.toString(16)}` : b.toString(16);
 
       return `#${Rr}${Gg}${Bb}`;
     },
@@ -224,17 +228,14 @@ export default {
     },
 
     checkOrientation() {
-      this.orientationIsLanding = (window.innerWidth > window.innerHeight);
+      this.orientationIsLanding = window.innerWidth > window.innerHeight;
     },
   },
 
   mounted() {
     const self = this;
     this.alfaAudio = new Howl({
-      src: [
-        './audio/alfa.mp3',
-        './audio/alfa.webm',
-      ],
+      src: ['./audio/alfa.mp3'],
       sprite: audioSprite,
       onload() {
         self.alfaAudioLoaded = true;
@@ -242,31 +243,34 @@ export default {
     });
 
     this.backgroundAudio = new Howl({
-      src: [
-        './audio/background.mp3',
-        './audio/background.webm',
-      ],
-      autoplay: true,
+      src: ['./audio/background.mp3'],
+      autoplay: false,
       loop: true,
-      volume: 0.3,
+      volume: 0.2,
       onload() {
-        console.log('pip');
         self.backgroundAudioLeaded = true;
 
         setTimeout(() => {
           self.backgroundAudioPlaying = self.backgroundAudio.playing();
         }, 100);
       },
+      onplay() {
+        self.backgroundAudioPlaying = self.backgroundAudio.playing();
+      },
     });
 
-    this.$watch((vm) => [vm.alfaAudioLoaded, vm.backgroundAudioLeaded], (val) => {
-      if (val[0] && val[1]) {
-        self.showLetters = true;
-      }
-    }, {
-      immediate: true,
-      deep: true,
-    });
+    this.$watch(
+      (vm) => [vm.alfaAudioLoaded, vm.backgroundAudioLeaded],
+      (val) => {
+        if (val[0] && val[1]) {
+          self.showLetters = true;
+        }
+      },
+      {
+        immediate: true,
+        deep: true,
+      },
+    );
 
     this.changeColor();
 
@@ -281,12 +285,12 @@ export default {
 
 <style lang="scss">
 @font-face {
-    font-family: 'Junegull';
-    src: url('./assets/fonts/subset-Junegull-Regular.woff2') format('woff2'),
-        url('./assets/fonts/subset-Junegull-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Junegull";
+  src: url("./assets/fonts/subset-Junegull-Regular.woff2") format("woff2"),
+    url("./assets/fonts/subset-Junegull-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
@@ -299,19 +303,20 @@ body {
 
 #app {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 
   &:not(.is-loader) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F6AFBB;
+    background: #f6afbb;
   }
 
   .loader {
-    font-family: 'Junegull';
+    font-family: "Junegull";
     font-size: 5vw;
-    color: #4247A7;
+    color: #4247a7;
   }
 
   &.is-loader {
@@ -326,24 +331,24 @@ body {
       ". . . . . . ."
       "controll . . . . . controlr";
 
-      &.is-portrait {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        gap: 0px 0px;
-        grid-template-areas:
-          ". . . . ."
-          ". . . . ."
-          ". . . . ."
-          ". . . . ."
-          ". . . . ."
-          ". . . . ."
-          "controll . . . controlr";
-      }
+    &.is-portrait {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0px 0px;
+      grid-template-areas:
+        ". . . . ."
+        ". . . . ."
+        ". . . . ."
+        ". . . . ."
+        ". . . . ."
+        ". . . . ."
+        "controll . . . controlr";
+    }
   }
 }
 .controlr {
   // background: linear-gradient(18deg, #e37682, #a58fe9);
-  background: #F6AFBB;
+  background: #f6afbb;
   grid-area: controlr;
   display: flex;
   align-items: center;
@@ -359,7 +364,7 @@ body {
 }
 .controll {
   // background: linear-gradient(18deg, #e37682, #a58fe9);
-  background: #F6AFBB;
+  background: #f6afbb;
   grid-area: controll;
   display: flex;
   align-items: center;
@@ -394,13 +399,13 @@ body {
     }
 
     &--silenced {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
   span {
     transition: transform 200ms ease-in-out;
-    font-family: 'Junegull';
+    font-family: "Junegull";
   }
 
   &:hover {
