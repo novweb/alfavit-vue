@@ -296,9 +296,11 @@ export default {
 body {
   width: 100vw;
   height: 100vh;
+  height: -webkit-fill-available;
   overflow: hidden;
   margin: 0;
   user-select: none;
+  touch-action: manipulation;
 }
 
 #app {
