@@ -24,7 +24,9 @@ const isActive = computed(() => props.letter.letter === activeLetter.value)
 const isSilenced = computed(() => activeLetter.value !== null && !isActive.value)
 
 const animationDuration = props.letter.audio[1] / 1000
+const animationDurationString = computed(() => animationDuration + 's')
 const color = props.subKey % 2 == 0 ? currentColor.value.primary : shadeColor(currentColor.value.primary, -20)
+const background = computed(() => getBackgroundColor(props.subKey))
 
 function run() {
   if (alphabetAudio.value?.playing() && isActive.value) return
@@ -42,11 +44,6 @@ function run() {
 <template>
   <div
     class="transition-all duration-200 rounded shadow cursor-pointer aspect-square alpha__letter"
-    :style="{
-      '--animate-duration': `${animationDuration}s`,
-      background: getBackgroundColor(subKey),
-      color,
-    }"
     @click="run"
   >
     <div
@@ -74,6 +71,9 @@ function run() {
 <style scoped>
 .alpha__letter {
   font-size: calc(100vw / 14);
+  --animate-duration: v-bind(animationDurationString);
+  color: v-bind(color);
+  background: v-bind(background);
 }
 
 @media (orientation: portrait) {
