@@ -1,0 +1,7 @@
+node_modules
+scripts
+types
+public
+dist
+shims-vue.d.ts
+.eslintrc.js
