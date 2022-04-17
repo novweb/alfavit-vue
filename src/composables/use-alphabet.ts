@@ -1,4 +1,4 @@
-import { reactive, toRef } from "vue"
+import { reactive, toRef } from 'vue'
 
 const state = reactive({
   activeLetter: null

@@ -39,11 +39,6 @@ function getBackgroundColor(key: number) {
     ${backgroundColor},
     ${backgroundColor}
   )`
-  // return `linear-gradient(
-  //       18deg,
-  //       ${backgroundColor},
-  //       ${convertHexToRGBA(backgroundColor, 80)}
-  //     )`;
 }
 
 function convertHexToRGBA(hexCode: string, opacity: number): string {
