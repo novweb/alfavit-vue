@@ -23,9 +23,8 @@ function getBackgroundColor(key: number) {
 
   const backgroundColor = state.color?.secondary
 
-  let odd = key % 2 === 0
+  const odd = key % 2 === 0
 
-  if (key >= 30) odd = !odd
   if (odd) {
     return `linear-gradient(
       18deg,
